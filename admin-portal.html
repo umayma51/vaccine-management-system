@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - VaccinaCare</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#0a0f1d'
+                        },
+                        teal: {
+                            500: '#0d9488',
+                            600: '#0d9488',
+                            700: '#0f766e'
+                        },
+                        softblue: '#f0f7ff'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .portal-tab-btn-admin.active {
+            background-color: #4f46e5;
+            color: #ffffff !important;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ==========================================
+         ADMIN PORTAL DASHBOARD
+    =========================================== -->
+    <div id="portal-admin" class="flex flex-col lg:flex-row min-h-screen bg-slate-100">
+
+        <!-- Sidebar -->
+        <aside class="w-full lg:w-64 bg-navy-950 text-white shrink-0 p-6 space-y-8">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold"><i class="fa-solid fa-shield-halved"></i></div>
+                <div>
+                    <div class="font-bold text-sm">VaccinaCare</div>
+                    <div class="text-[10px] text-indigo-400 font-semibold uppercase">Admin Panel</div>
+                </div>
+            </div>
+            <nav class="space-y-1 text-xs">
+                <a href="javascript:void(0)" onclick="switchPortalTab('overview')" class="portal-tab-btn-admin flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors active" id="ptab-admin-overview"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+                <a href="javascript:void(0)" onclick="switchPortalTab('hospitals')" class="portal-tab-btn-admin flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors" id="ptab-admin-hospitals"><i class="fa-solid fa-hospital"></i> Manage Hospitals</a>
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-rose-400 hover:bg-rose-950/30 transition-colors mt-8"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</a>
+            </nav>
+        </aside>
+
+        <!-- Admin Main Area -->
+        <main class="flex-grow p-6 lg:p-10 space-y-8">
+            <div class="border-b border-slate-200 pb-6">
+                <h1 class="text-2xl font-bold text-slate-900">System Administration &amp; Global Reports</h1>
+                <p class="text-xs text-slate-500">Public Health Regional Governance Platform</p>
+            </div>
+
+            <!-- TAB 1: Analytics -->
+            <div id="admin-sub-overview" class="portal-subview space-y-8">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs text-slate-400 font-semibold">TOTAL CHILDREN</div>
+                        <div class="text-3xl font-extrabold text-slate-900 mt-1">24,500</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs text-slate-400 font-semibold">HOSPITAL NETWORK</div>
+                        <div class="text-3xl font-extrabold text-slate-900 mt-1">120</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs text-slate-400 font-semibold">DOSES ADMINISTERED</div>
+                        <div class="text-3xl font-extrabold text-slate-900 mt-1">184,200</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs text-slate-400 font-semibold">SYSTEM HEALTH</div>
+                        <div class="text-3xl font-extrabold text-emerald-600 mt-1">99.9%</div>
+                    </div>
+                </div>
+
+                <!-- Chart Component -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-base font-bold text-slate-900">Immunization Rate Trend (Monthly)</h3>
+                    <div class="h-64">
+                        <canvas id="adminAnalyticsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: Hospitals Management -->
+            <div id="admin-sub-hospitals" class="portal-subview hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-slate-900">Registered Medical Centers</h3>
+                    <button onclick="openModal('modal-add-hospital')" class="bg-indigo-600 text-white text-xs px-4 py-2.5 rounded-xl font-semibold hover:bg-indigo-700"><i class="fa-solid fa-plus"></i> Add Hospital</button>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-sm">
+                    <table class="min-w-[650px] w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-600">
+                                <th class="p-4 font-semibold">Hospital Name</th>
+                                <th class="p-4 font-semibold">Location</th>
+                                <th class="p-4 font-semibold">Status</th>
+                                <th class="p-4 font-semibold">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 font-bold text-slate-900">St. Jude Children's Hospital</td>
+                                <td class="p-4 text-slate-600">Central District</td>
+                                <td class="p-4"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-semibold">Verified</span></td>
+                                <td class="p-4"><button class="text-indigo-600 font-bold hover:underline">Edit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <!-- ==========================================
+         MODAL: ADD HOSPITAL
+    =========================================== -->
+    <div id="modal-add-hospital" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full space-y-6">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-slate-900">Add Accredited Hospital</h3>
+                <button onclick="closeModal('modal-add-hospital')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form onsubmit="handleFormSubmit(event, 'Hospital added to directory successfully!')" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Hospital Name</label>
+                    <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">District / Region</label>
+                    <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-xs">Save Facility</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         SCRIPTS & LIBRARIES
+    =========================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js for Frontend Visuals -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initChart();
+        });
+
+        // Portal Subview Tabs Switcher
+        function switchPortalTab(tabName) {
+            document.querySelectorAll('.portal-subview').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.portal-tab-btn-admin').forEach(el => el.classList.remove('active'));
+
+            const targetView = document.getElementById('admin-sub-' + tabName);
+            if (targetView) targetView.classList.remove('hidden');
+
+            const tabBtn = document.getElementById('ptab-admin-' + tabName);
+            if (tabBtn) tabBtn.classList.add('active');
+        }
+
+        // Generic Modal Handlers
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.getElementById(id).classList.add('flex');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
+
+        // Form Submit Helper
+        function handleFormSubmit(e, message) {
+            e.preventDefault();
+            alert(message);
+        }
+
+        // Chart.js Setup for Admin Analytics Dashboard
+        function initChart() {
+            const ctx = document.getElementById('adminAnalyticsChart');
+            if (!ctx) return;
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    datasets: [{
+                        label: 'Doses Administered',
+                        data: [12000, 15000, 14000, 18000, 22000, 21000, 25000, 28000, 31000],
+                        borderColor: '#0d9488',
+                        backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

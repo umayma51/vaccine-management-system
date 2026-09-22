@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Portal - VaccinaCare</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#0a0f1d'
+                        },
+                        teal: {
+                            500: '#0d9488',
+                            600: '#0d9488',
+                            700: '#0f766e'
+                        },
+                        softblue: '#f0f7ff'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .portal-tab-btn-hospital.active {
+            background-color: #2563eb;
+            color: #ffffff !important;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ==========================================
+         HOSPITAL PORTAL DASHBOARD
+    =========================================== -->
+    <div id="portal-hospital" class="flex flex-col lg:flex-row min-h-screen bg-slate-100">
+
+        <!-- Sidebar -->
+        <aside class="w-full lg:w-64 bg-navy-900 text-white shrink-0 p-6 space-y-8">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold"><i class="fa-solid fa-hospital"></i></div>
+                <div>
+                    <div class="font-bold text-sm">VaccinaCare</div>
+                    <div class="text-[10px] text-blue-400 font-semibold uppercase">Hospital Portal</div>
+                </div>
+            </div>
+            <nav class="space-y-1 text-xs">
+                <a href="javascript:void(0)" onclick="switchPortalTab('overview')" class="portal-tab-btn-hospital flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors active" id="ptab-hospital-overview"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
+                <a href="javascript:void(0)" onclick="switchPortalTab('stock')" class="portal-tab-btn-hospital flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors" id="ptab-hospital-stock"><i class="fa-solid fa-boxes-stacked"></i> Vaccine Inventory</a>
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-rose-400 hover:bg-rose-950/30 transition-colors mt-8"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</a>
+            </nav>
+        </aside>
+
+        <!-- Hospital Main View -->
+        <main class="flex-grow p-6 lg:p-10 space-y-8">
+            <div class="border-b border-slate-200 pb-6">
+                <h1 class="text-2xl font-bold text-slate-900">St. Jude Children's Hospital</h1>
+                <p class="text-xs text-slate-500">Clinic Management • Daily Appointments &amp; Vaccine Inventory</p>
+            </div>
+
+            <!-- TAB 1: Appointments -->
+            <div id="hospital-sub-overview" class="portal-subview space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-slate-400 text-xs font-semibold">TODAY'S APPOINTMENTS</div>
+                        <div class="text-3xl font-extrabold text-slate-900 mt-1">12 Patients</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-amber-600 text-xs font-semibold">PENDING REQUESTS</div>
+                        <div class="text-3xl font-extrabold text-amber-600 mt-1">4 Requests</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-emerald-600 text-xs font-semibold">ADMINISTERED THIS WEEK</div>
+                        <div class="text-3xl font-extrabold text-emerald-600 mt-1">48 Doses</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-sm">
+                    <div class="p-6 border-b border-slate-100 font-bold text-slate-900 text-sm">Scheduled Appointments</div>
+                    <table class="min-w-[650px] w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-600">
+                                <th class="p-4 font-semibold">Child Name</th>
+                                <th class="p-4 font-semibold">Vaccine</th>
+                                <th class="p-4 font-semibold">Date &amp; Time</th>
+                                <th class="p-4 font-semibold">Status</th>
+                                <th class="p-4 font-semibold">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 font-bold text-slate-900">Leo Jenkins</td>
+                                <td class="p-4 text-slate-600">Polio Booster (OPV-3)</td>
+                                <td class="p-4 text-slate-600">Oct 14, 2026 • 10:30 AM</td>
+                                <td class="p-4"><span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-semibold rounded-md">Pending Confirmation</span></td>
+                                <td class="p-4 space-x-2">
+                                    <button onclick="alert('Appointment Confirmed!')" class="bg-emerald-600 text-white px-3 py-1 rounded-md font-semibold">Approve</button>
+                                    <button onclick="alert('Appointment Cancelled')" class="bg-slate-200 text-slate-700 px-3 py-1 rounded-md font-semibold">Decline</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: Stock Management -->
+            <div id="hospital-sub-stock" class="portal-subview hidden space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900">Vaccine Inventory Status</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 border rounded-xl space-y-2">
+                            <div class="font-bold text-slate-900">BCG Vaccine</div>
+                            <div class="text-slate-500">In Stock: 150 Doses</div>
+                            <span class="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-semibold">Available</span>
+                        </div>
+                        <div class="p-4 border rounded-xl space-y-2">
+                            <div class="font-bold text-slate-900">Pentavalent</div>
+                            <div class="text-slate-500">In Stock: 24 Doses</div>
+                            <span class="inline-block px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-semibold">Limited Stock</span>
+                        </div>
+                        <div class="p-4 border rounded-xl space-y-2">
+                            <div class="font-bold text-slate-900">Polio (OPV)</div>
+                            <div class="text-slate-500">In Stock: 160 Doses</div>
+                            <span class="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-semibold">Available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <!-- ==========================================
+         SCRIPTS & LIBRARIES
+    =========================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Portal Subview Tabs Switcher
+        function switchPortalTab(tabName) {
+            document.querySelectorAll('.portal-subview').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.portal-tab-btn-hospital').forEach(el => el.classList.remove('active'));
+
+            const targetView = document.getElementById('hospital-sub-' + tabName);
+            if (targetView) targetView.classList.remove('hidden');
+
+            const tabBtn = document.getElementById('ptab-hospital-' + tabName);
+            if (tabBtn) tabBtn.classList.add('active');
+        }
+    </script>
+</body>
+</html>
